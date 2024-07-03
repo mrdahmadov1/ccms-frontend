@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import CustomTextField from '../../reusable/customTextField'; // Assuming you have a CustomTextField component
+import CustomTextField from '../../reusable/customTextField';
 import * as Yup from 'yup';
 import { registerUser } from '../../../store/userSlice';
 import { useAuthForm } from '../../../hooks/useAuthForm';

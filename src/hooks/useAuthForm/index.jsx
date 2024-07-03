@@ -2,6 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 
 export const useAuthForm = ({ initialValues, validationSchema, onSubmitAction }) => {
@@ -20,13 +22,23 @@ export const useAuthForm = ({ initialValues, validationSchema, onSubmitAction })
   const handleSuccess = useCallback(() => {
     if (status === 'success' && user) {
       formik.resetForm();
-      navigate('/');
+      switch (user.role) {
+        case 'user':
+          navigate('/');
+          break;
+        case 'admin':
+          navigate('/admin');
+          break;
+        default:
+          // For Other Roles Handling
+          break;
+      }
     }
   }, [formik, status, user, navigate]);
 
   const handleError = useCallback(() => {
     if (error) {
-      // Handle error (e.g., show toast)
+      toast.error(error);
     }
   }, [error]);
 

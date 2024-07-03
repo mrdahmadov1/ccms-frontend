@@ -75,7 +75,7 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload.data;
         state.status = action.payload.status;
-        state.error = action.payload.status !== 'success' ? action.payload : null;
+        state.error = action.payload.status !== 'success' ? action.payload.message : null;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
