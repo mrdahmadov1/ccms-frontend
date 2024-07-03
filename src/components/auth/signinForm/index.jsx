@@ -8,16 +8,23 @@ import * as Yup from 'yup';
 import { loginUser } from '../../../store/userSlice';
 import { useAuthForm } from '../../../hooks/useAuthForm';
 
+const formFields = [
+  { id: 'email', name: 'email', label: 'Email Address', type: 'email' },
+  { id: 'password', name: 'password', label: 'Password', type: 'password' },
+];
+
+const validationSchema = Yup.object({
+  email: Yup.string().email('Invalid email address').required('Required'),
+  password: Yup.string().min(8, 'Password must be at least 4 characters').required('Required'),
+});
+
 const SignInForm = () => {
   const { formik, status } = useAuthForm({
     initialValues: {
       email: '',
       password: '',
     },
-    validationSchema: {
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(4, 'Password must be at least 4 characters').required('Required'),
-    },
+    validationSchema,
     onSubmitAction: loginUser,
   });
 
@@ -27,14 +34,16 @@ const SignInForm = () => {
         Sign in
       </Typography>
       <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
-        <CustomTextField id="email" name="email" label="Email Address" formik={formik} />
-        <CustomTextField
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          formik={formik}
-        />
+        {formFields.map((field) => (
+          <CustomTextField
+            key={field.id}
+            id={field.id}
+            name={field.name}
+            label={field.label}
+            type={field.type}
+            formik={formik}
+          />
+        ))}
         <Button
           fullWidth
           variant="contained"

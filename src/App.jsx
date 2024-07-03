@@ -38,7 +38,7 @@ const App = () => {
         </Router>
       </Provider>
 
-      <ToastContainer position="top-center" />
+      <ToastContainer newestOnTop autoClose={1500} position="top-center" />
     </>
   );
 };

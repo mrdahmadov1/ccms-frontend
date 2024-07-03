@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as Yup from 'yup';
 
 export const useAuthForm = ({ initialValues, validationSchema, onSubmitAction }) => {
   const dispatch = useDispatch();
@@ -13,7 +12,7 @@ export const useAuthForm = ({ initialValues, validationSchema, onSubmitAction })
 
   const formik = useFormik({
     initialValues,
-    validationSchema: Yup.object(validationSchema),
+    validationSchema,
     onSubmit: (values) => {
       dispatch(onSubmitAction(values));
     },
@@ -22,6 +21,7 @@ export const useAuthForm = ({ initialValues, validationSchema, onSubmitAction })
   const handleSuccess = useCallback(() => {
     if (status === 'success' && user) {
       formik.resetForm();
+      toast.success('Logged in successfully!');
       switch (user.role) {
         case 'user':
           navigate('/');
