@@ -1,5 +1,11 @@
+import MainLayout from '../../../layouts/mainLayout';
+
 const Admin = () => {
-  return <div>Admin</div>;
+  return (
+    <>
+      <MainLayout>Admin page</MainLayout>
+    </>
+  );
 };
 
 export default Admin;

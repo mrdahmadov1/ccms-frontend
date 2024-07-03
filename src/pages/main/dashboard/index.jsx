@@ -1,5 +1,11 @@
+import MainLayout from '../../../layouts/mainLayout';
+
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <MainLayout>Dashboard page</MainLayout>
+    </>
+  );
 };
 
 export default Dashboard;
