@@ -6,6 +6,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { createComplaint } from '../../../store/complaintSlice';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const formFields = [
   { id: 'title', name: 'title', label: 'Title', type: 'title' },
@@ -29,6 +34,9 @@ const validationSchema = Yup.object({
 });
 
 export default function SendComplaintForm() {
+  const dispatch = useDispatch();
+  const { status, error } = useSelector((state) => state.complaint);
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -40,10 +48,14 @@ export default function SendComplaintForm() {
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
+      dispatch(createComplaint(values));
       resetForm();
     },
   });
+
+  useEffect(() => {
+    status === 'success' ? toast.success('Complaint sent successfully!') : toast.error(error);
+  }, [status, error]);
 
   return (
     <>
