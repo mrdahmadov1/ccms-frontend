@@ -61,7 +61,10 @@ export const checkLogin = createAsyncThunk('user/checkLogin', async () => {
 
 export const logoutUser = createAsyncThunk('user/logout', async () => {
   const response = await fetch(`${API_BASE_URL}/logout`, {
-    method: 'POST',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
   if (!response.ok) {

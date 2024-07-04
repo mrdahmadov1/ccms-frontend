@@ -3,7 +3,7 @@ import MainLayout from '../../../layouts/mainLayout';
 const Dashboard = () => {
   return (
     <>
-      <MainLayout>Dashboard page</MainLayout>
+      <MainLayout title="Dashboard">Dashboard page</MainLayout>
     </>
   );
 };

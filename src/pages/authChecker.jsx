@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { checkLogin } from '../store/userSlice';
@@ -19,13 +19,17 @@ const AuthChecker = ({ children }) => {
   }
 
   if (
-    (user.role === 'user' && location.pathname.startsWith('/admin')) ||
-    (user.role === 'admin' && !location.pathname.includes('admin'))
+    (user?.role === 'user' && location.pathname.startsWith('/admin')) ||
+    (user?.role === 'admin' && !location.pathname.includes('admin'))
   ) {
     return <NotFoundPage />;
   }
 
   return children;
+};
+
+AuthChecker.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AuthChecker;

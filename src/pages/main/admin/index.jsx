@@ -1,11 +1,7 @@
 import MainLayout from '../../../layouts/mainLayout';
 
 const Admin = () => {
-  return (
-    <>
-      <MainLayout>Admin page</MainLayout>
-    </>
-  );
+  return <MainLayout title="Dashboard">Admin</MainLayout>;
 };
 
 export default Admin;
