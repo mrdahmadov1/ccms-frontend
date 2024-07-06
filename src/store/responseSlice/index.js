@@ -1,28 +1,35 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
-import { getMyComplaints } from '../complaintSlice';
+import { getMyComplaints, getAllComplaints } from '../complaintSlice';
 
 const API_BASE_URL = 'https://ccms-e9c8c215d52e.herokuapp.com/api/v1/responses';
 
-export const createResponse = createAsyncThunk('response/create', async (credentials) => {
-  const token = Cookies.get('jwt');
+export const createResponse = createAsyncThunk(
+  'response/create',
+  async (credentials, { dispatch }) => {
+    const token = Cookies.get('jwt');
 
-  const response = await fetch(`${API_BASE_URL}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(credentials),
-  });
+    const response = await fetch(`${API_BASE_URL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(credentials),
+    });
 
-  if (!response.ok) {
-    const { error } = await response.json();
-    return error;
+    if (!response.ok) {
+      const { error } = await response.json();
+      return error;
+    }
+
+    const createdResponse = await response.json();
+
+    dispatch(getAllComplaints());
+
+    return createdResponse;
   }
-
-  return await response.json();
-});
+);
 
 export const updateResponseRating = createAsyncThunk(
   'response/update',
@@ -75,7 +82,6 @@ const responseSlice = createSlice({
         state.error = null;
       })
       .addCase(updateResponseRating.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.response = action.payload.data;
         state.status = action.payload.status;
         state.error = action.payload.status !== 'success' ? action.payload.message : null;

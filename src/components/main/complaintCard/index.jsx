@@ -14,8 +14,11 @@ import SelectField from '../../reusable/selectField';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import AddCommentIcon from '@mui/icons-material/AddComment';
 import ResponseCard from '../responseCard';
+import SendResponseForm from '../sendResponseForm';
+import { createResponse } from '../../../store/responseSlice';
 
 const statusOptions = ['Open', 'In Progress', 'Completed'];
 const priorityOptions = ['Low', 'Medium', 'High'];
@@ -55,7 +58,9 @@ export default function ComplaintCard({
   adminResponses,
 }) {
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(false);
+  const [showTextarea, setShowTextarea] = useState(false);
 
   const formattedSubmissionDate = new Date(submissionDate).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -65,6 +70,15 @@ export default function ComplaintCard({
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleResponseClick = () => {
+    setShowTextarea(!showTextarea);
+  };
+
+  const handleSendResponse = (values) => {
+    dispatch(createResponse(values));
+    setShowTextarea(false);
   };
 
   return (
@@ -145,6 +159,14 @@ export default function ComplaintCard({
           {adminResponses.map((response) => (
             <ResponseCard key={response._id} {...response} />
           ))}
+          {user?.role === 'admin' && (
+            <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+              <IconButton color="primary" onClick={handleResponseClick}>
+                <AddCommentIcon />
+              </IconButton>
+            </Box>
+          )}
+          {showTextarea && <SendResponseForm complaintId={_id} onSubmit={handleSendResponse} />}
         </CardContent>
       </Collapse>
     </Card>
