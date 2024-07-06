@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,6 +14,10 @@ export default function SelectField({ complaintId, disabled, label, currentValue
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.complaint);
   const [value, setValue] = useState(currentValue);
+
+  useEffect(() => {
+    setValue(currentValue);
+  }, [currentValue]);
 
   const handleChange = async (event) => {
     setValue(event.target.value);

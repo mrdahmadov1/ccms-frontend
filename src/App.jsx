@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import store from './store/configureStore';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 import NotFoundPage from '../404';
 import { Box, LinearProgress } from '@mui/material';
 
