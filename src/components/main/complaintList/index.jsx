@@ -8,18 +8,7 @@ const ComplaintList = ({ complaints }) => {
       <Grid container spacing={2}>
         {complaints.map((complaint, index) => (
           <Grid item xs={12} key={index}>
-            <ComplaintCard
-              id={complaint._id}
-              name={complaint.name}
-              title={complaint.title}
-              description={complaint.description}
-              email={complaint.email}
-              phone={complaint.phone}
-              address={complaint.address}
-              status={complaint.status}
-              priority={complaint.priority}
-              submissionDate={complaint.submissionDate}
-            />
+            <ComplaintCard {...complaint} />
           </Grid>
         ))}
       </Grid>

@@ -78,6 +78,12 @@ export default function SendComplaintForm() {
                 id={field.id}
                 name={field.name}
                 label={field.label}
+                multiline={field.name === 'description'}
+                InputProps={{
+                  inputProps: {
+                    maxLength: 500,
+                  },
+                }}
                 type={field.type}
                 {...formik.getFieldProps(field.name)}
                 error={formik.touched[field.name] && Boolean(formik.errors[field.name])}

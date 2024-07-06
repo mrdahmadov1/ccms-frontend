@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -15,6 +15,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useSelector } from 'react-redux';
+import ResponseCard from '../responseCard';
 
 const statusOptions = ['Open', 'In Progress', 'Completed'];
 const priorityOptions = ['Low', 'Medium', 'High'];
@@ -41,7 +42,7 @@ const ContactInfoItem = ({ icon, text }) => (
 );
 
 export default function ComplaintCard({
-  id,
+  _id,
   name,
   title,
   description,
@@ -51,19 +52,20 @@ export default function ComplaintCard({
   status,
   priority,
   submissionDate,
+  adminResponses,
 }) {
   const { user } = useSelector((state) => state.user);
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [expanded, setExpanded] = useState(false);
 
   const formattedSubmissionDate = new Date(submissionDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: '2-digit',
   });
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   return (
     <Card sx={{ maxWidth: '100%', boxShadow: 3 }}>
@@ -72,7 +74,7 @@ export default function ComplaintCard({
           <Grid container flexDirection={{ xs: 'column', sm: 'row' }}>
             <Grid item>
               <SelectField
-                complaintId={id}
+                complaintId={_id}
                 disabled={user?.role !== 'admin'}
                 label="status"
                 currentValue={status}
@@ -81,7 +83,7 @@ export default function ComplaintCard({
             </Grid>
             <Grid item>
               <SelectField
-                complaintId={id}
+                complaintId={_id}
                 disabled={user?.role !== 'admin'}
                 label="priority"
                 currentValue={priority}
@@ -127,25 +129,22 @@ export default function ComplaintCard({
         </Grid>
       </Box>
       <Divider />
-      <CardActions sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+      <CardActions
+        onClick={handleExpandClick}
+        sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}
+      >
         <Typography variant="button" color="textSecondary">
-          <span>0</span> Response
+          <span>{adminResponses.length}</span> Response
         </Typography>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
+        <ExpandMore expand={expanded} aria-expanded={expanded} aria-label="show more">
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <Divider />
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" color="textSecondary">
-            Responses
-          </Typography>
+          {adminResponses.map((response) => (
+            <ResponseCard key={response._id} {...response} />
+          ))}
         </CardContent>
       </Collapse>
     </Card>
