@@ -17,7 +17,7 @@ function AuthLayout({ children }) {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url("/src/assets/img/auth-bg.jpg")',
+            backgroundImage: 'url("../../assets/img/auth-bg.jpg")',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
