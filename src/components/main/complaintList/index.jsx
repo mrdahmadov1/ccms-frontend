@@ -1,23 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import ComplaintCard from '../complaintCard';
 import { Grid, Container } from '@mui/material';
-import { useEffect } from 'react';
-import { getMyComplaints } from '../../../store/complaintSlice';
 
-const ComplaintList = () => {
-  const dispatch = useDispatch();
-  const { complaints } = useSelector((state) => state.complaint);
-
-  useEffect(() => {
-    dispatch(getMyComplaints());
-  }, [dispatch]);
-
+const ComplaintList = ({ complaints }) => {
   return (
     <Container>
       <Grid container spacing={2}>
         {complaints.map((complaint, index) => (
           <Grid item xs={12} key={index}>
             <ComplaintCard
+              id={complaint._id}
               name={complaint.name}
               title={complaint.title}
               description={complaint.description}
@@ -33,6 +25,10 @@ const ComplaintList = () => {
       </Grid>
     </Container>
   );
+};
+
+ComplaintList.propTypes = {
+  complaints: PropTypes.array.isRequired,
 };
 
 export default ComplaintList;

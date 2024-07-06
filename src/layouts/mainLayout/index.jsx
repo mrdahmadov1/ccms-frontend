@@ -218,7 +218,7 @@ function MainLayout({ children, title }) {
 }
 
 MainLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   title: PropTypes.string.isRequired,
 };
 

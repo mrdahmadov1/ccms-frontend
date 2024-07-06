@@ -11,10 +11,10 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Divider, Grid, Box } from '@mui/material';
 import SelectField from '../../reusable/selectField';
-import Tooltip from '@mui/material/Tooltip';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useSelector } from 'react-redux';
 
 const statusOptions = ['Open', 'In Progress', 'Completed'];
 const priorityOptions = ['Low', 'Medium', 'High'];
@@ -41,6 +41,7 @@ const ContactInfoItem = ({ icon, text }) => (
 );
 
 export default function ComplaintCard({
+  id,
   name,
   title,
   description,
@@ -51,6 +52,7 @@ export default function ComplaintCard({
   priority,
   submissionDate,
 }) {
+  const { user } = useSelector((state) => state.user);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -69,19 +71,22 @@ export default function ComplaintCard({
         action={
           <Grid container flexDirection={{ xs: 'column', sm: 'row' }}>
             <Grid item>
-              <Tooltip title="You don't have permission to do this action!">
-                <span>
-                  <SelectField
-                    disabled
-                    label="Status"
-                    currentValue={status}
-                    options={statusOptions}
-                  />
-                </span>
-              </Tooltip>
+              <SelectField
+                complaintId={id}
+                disabled={user?.role !== 'admin'}
+                label="status"
+                currentValue={status}
+                options={statusOptions}
+              />
             </Grid>
             <Grid item>
-              <SelectField label="Priority" currentValue={priority} options={priorityOptions} />
+              <SelectField
+                complaintId={id}
+                disabled={user?.role !== 'admin'}
+                label="priority"
+                currentValue={priority}
+                options={priorityOptions}
+              />
             </Grid>
           </Grid>
         }

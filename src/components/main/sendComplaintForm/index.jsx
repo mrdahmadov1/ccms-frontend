@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { createComplaint } from '../../../store/complaintSlice';
-import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -47,15 +46,12 @@ export default function SendComplaintForm() {
       address: '',
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       dispatch(createComplaint(values));
+      status === 'success' ? toast.success('Complaint sent successfully!') : toast.error(error);
       resetForm();
     },
   });
-
-  useEffect(() => {
-    status === 'success' ? toast.success('Complaint sent successfully!') : toast.error(error);
-  }, [status, error]);
 
   return (
     <>
