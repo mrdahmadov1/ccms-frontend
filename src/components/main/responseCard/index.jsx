@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateResponseRating } from '../../../store/responseSlice';
 import { useState } from 'react';
 
-const ResponseCard = ({ _id, responseDate, response, rating }) => {
+const ResponseCard = ({ _id, complaintId, responseDate, response, rating }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
@@ -22,6 +22,7 @@ const ResponseCard = ({ _id, responseDate, response, rating }) => {
   const handleRatingChange = (event) => {
     dispatch(
       updateResponseRating({
+        complaintId,
         responseId: _id,
         credentials: { rating: event.target.value },
       })

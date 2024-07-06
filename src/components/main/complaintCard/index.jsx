@@ -57,8 +57,9 @@ export default function ComplaintCard({
   submissionDate,
   adminResponses,
 }) {
-  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user);
   const [expanded, setExpanded] = useState(false);
   const [showTextarea, setShowTextarea] = useState(false);
 
@@ -82,93 +83,95 @@ export default function ComplaintCard({
   };
 
   return (
-    <Card sx={{ maxWidth: '100%', boxShadow: 3 }}>
-      <CardHeader
-        action={
-          <Grid container flexDirection={{ xs: 'column', sm: 'row' }}>
-            <Grid item>
-              <SelectField
-                complaintId={_id}
-                disabled={user?.role !== 'admin'}
-                label="status"
-                currentValue={status}
-                options={statusOptions}
-              />
+    <Grid item xs={12}>
+      <Card sx={{ maxWidth: '100%', boxShadow: 3 }}>
+        <CardHeader
+          action={
+            <Grid container alignItems="center" flexDirection={{ xs: 'column', sm: 'row' }}>
+              <Grid item>
+                <SelectField
+                  complaintId={_id}
+                  disabled={user?.role !== 'admin'}
+                  label="status"
+                  currentValue={status}
+                  options={statusOptions}
+                />
+              </Grid>
+              <Grid item>
+                <SelectField
+                  complaintId={_id}
+                  disabled={user?.role !== 'admin'}
+                  label="priority"
+                  currentValue={priority}
+                  options={priorityOptions}
+                />
+              </Grid>
             </Grid>
+          }
+          title={name}
+          titleTypographyProps={{ variant: 'h6' }}
+          subheader={formattedSubmissionDate}
+          subheaderTypographyProps={{ variant: 'subtitle2' }}
+        />
+        <Divider />
+        <Box m={2}>
+          <Grid container flexDirection="column" alignItems="center">
             <Grid item>
-              <SelectField
-                complaintId={_id}
-                disabled={user?.role !== 'admin'}
-                label="priority"
-                currentValue={priority}
-                options={priorityOptions}
-              />
+              <Typography textAlign="center" variant="h6" color="textPrimary">
+                {title}
+              </Typography>
+            </Grid>
+            <Grid item maxWidth={750}>
+              <Typography justifyContent="center" variant="body2" color="textSecondary">
+                {description}
+              </Typography>
             </Grid>
           </Grid>
-        }
-        title={name}
-        titleTypographyProps={{ variant: 'h6' }}
-        subheader={formattedSubmissionDate}
-        subheaderTypographyProps={{ variant: 'subtitle2' }}
-      />
-      <Divider />
-      <Box m={2}>
-        <Grid container flexDirection="column" alignItems="center">
-          <Grid item>
-            <Typography textAlign="center" variant="h6" color="textPrimary">
-              {title}
-            </Typography>
+        </Box>
+        <Divider />
+        <Box m={2}>
+          <Grid
+            container
+            flexDirection={{ xs: 'column', md: 'row' }}
+            justifyContent={{ xs: 'start', md: 'center' }}
+            spacing={{ xs: 2, md: 4 }}
+          >
+            <ContactInfoItem
+              icon={<LocationOnIcon fontSize="small" color="primary" />}
+              text={address}
+            />
+            <ContactInfoItem icon={<EmailIcon fontSize="small" color="primary" />} text={email} />
+            <ContactInfoItem icon={<PhoneIcon fontSize="small" color="primary" />} text={phone} />
           </Grid>
-          <Grid item maxWidth={750}>
-            <Typography justifyContent="center" variant="body2" color="textSecondary">
-              {description}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
-      <Divider />
-      <Box m={2}>
-        <Grid
-          container
-          flexDirection={{ xs: 'column', md: 'row' }}
-          justifyContent={{ xs: 'start', md: 'center' }}
-          spacing={{ xs: 2, md: 4 }}
+        </Box>
+        <Divider />
+        <CardActions
+          onClick={handleExpandClick}
+          sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', cursor: 'pointer' }}
         >
-          <ContactInfoItem
-            icon={<LocationOnIcon fontSize="small" color="primary" />}
-            text={address}
-          />
-          <ContactInfoItem icon={<EmailIcon fontSize="small" color="primary" />} text={email} />
-          <ContactInfoItem icon={<PhoneIcon fontSize="small" color="primary" />} text={phone} />
-        </Grid>
-      </Box>
-      <Divider />
-      <CardActions
-        onClick={handleExpandClick}
-        sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}
-      >
-        <Typography variant="button" color="textSecondary">
-          <span>{adminResponses.length}</span> Response
-        </Typography>
-        <ExpandMore expand={expanded} aria-expanded={expanded} aria-label="show more">
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          {adminResponses.map((response) => (
-            <ResponseCard key={response._id} {...response} />
-          ))}
-          {user?.role === 'admin' && (
-            <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-              <IconButton color="primary" onClick={handleResponseClick}>
-                <AddCommentIcon />
-              </IconButton>
-            </Box>
-          )}
-          {showTextarea && <SendResponseForm complaintId={_id} onSubmit={handleSendResponse} />}
-        </CardContent>
-      </Collapse>
-    </Card>
+          <Typography variant="button" color="textSecondary">
+            <span>{adminResponses.length}</span> Response
+          </Typography>
+          <ExpandMore expand={expanded} aria-expanded={expanded} aria-label="show more">
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            {adminResponses.map((response, index) => (
+              <ResponseCard key={index} {...response} />
+            ))}
+            {user?.role === 'admin' && (
+              <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+                <IconButton color="primary" onClick={handleResponseClick}>
+                  <AddCommentIcon />
+                </IconButton>
+              </Box>
+            )}
+            {showTextarea && <SendResponseForm complaintId={_id} onSubmit={handleSendResponse} />}
+          </CardContent>
+        </Collapse>
+      </Card>
+    </Grid>
   );
 }

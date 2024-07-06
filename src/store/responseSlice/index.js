@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
-import { getMyComplaints, getAllComplaints } from '../complaintSlice';
+import { getComplaint } from '../complaintSlice';
 
 const API_BASE_URL = 'https://ccms-e9c8c215d52e.herokuapp.com/api/v1/responses';
 
@@ -25,7 +25,7 @@ export const createResponse = createAsyncThunk(
 
     const createdResponse = await response.json();
 
-    dispatch(getAllComplaints());
+    dispatch(getComplaint(credentials.complaintId));
 
     return createdResponse;
   }
@@ -33,7 +33,7 @@ export const createResponse = createAsyncThunk(
 
 export const updateResponseRating = createAsyncThunk(
   'response/update',
-  async ({ responseId, credentials }, { dispatch }) => {
+  async ({ complaintId, responseId, credentials }, { dispatch }) => {
     const token = Cookies.get('jwt');
 
     const response = await fetch(`${API_BASE_URL}/${responseId}`, {
@@ -52,7 +52,7 @@ export const updateResponseRating = createAsyncThunk(
 
     const updatedResponse = await response.json();
 
-    dispatch(getMyComplaints());
+    dispatch(getComplaint(complaintId));
 
     return updatedResponse;
   }

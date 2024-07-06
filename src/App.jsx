@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import MyComplaints from './pages/main/myComplaints';
 import Admin from './pages/main/admin';
 import AllComplaints from './pages/main/allComplaints';
+import ComplaintDetail from './pages/main/complaintDetail';
 
 const App = () => {
   return (
@@ -45,6 +46,14 @@ const App = () => {
               }
             />
             <Route
+              path="/my-complaints/:id"
+              element={
+                <AuthChecker>
+                  <ComplaintDetail />
+                </AuthChecker>
+              }
+            />
+            <Route
               path="/admin"
               element={
                 <AuthChecker>
@@ -57,6 +66,14 @@ const App = () => {
               element={
                 <AuthChecker>
                   <AllComplaints />
+                </AuthChecker>
+              }
+            />
+            <Route
+              path="/admin/all-complaints/:id"
+              element={
+                <AuthChecker>
+                  <ComplaintDetail />
                 </AuthChecker>
               }
             />

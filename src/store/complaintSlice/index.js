@@ -49,6 +49,25 @@ export const getMyComplaints = createAsyncThunk(
   }
 );
 
+export const getComplaint = createAsyncThunk('complaint/getComplaint', async (complaintId) => {
+  const token = Cookies.get('jwt');
+
+  const response = await fetch(`${API_BASE_URL}/${complaintId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    return error;
+  }
+
+  return await response.json();
+});
+
 export const createComplaint = createAsyncThunk('complaint/create', async (credentials) => {
   const token = Cookies.get('jwt');
 
@@ -121,6 +140,15 @@ const complaintSlice = createSlice({
         state.error = null;
       })
       .addCase(updateComplaint.fulfilled, (state, action) => {
+        state.complaint = action.payload.data;
+        state.status = action.payload.status;
+        state.error = action.payload.status !== 'success' ? action.payload.message : null;
+      })
+      .addCase(getComplaint.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(getComplaint.fulfilled, (state, action) => {
         state.complaint = action.payload.data;
         state.status = action.payload.status;
         state.error = action.payload.status !== 'success' ? action.payload.message : null;
