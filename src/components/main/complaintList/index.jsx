@@ -5,15 +5,32 @@ import IconButton from '@mui/material/IconButton';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { Grid, Container } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ComplaintSearchFilterBar from '../complaintFilterBar';
+import { useEffect, useState } from 'react';
 
 const ComplaintList = ({ complaints }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [filteredComplaints, setFilteredComplaints] = useState([]);
+
+  useEffect(() => {
+    setFilteredComplaints(complaints);
+  }, [complaints]);
+
+  const handleSearch = (searchText) => {
+    const filtered = complaints.filter((complaint) =>
+      Object.values(complaint).some((value) =>
+        value.toString().toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+    setFilteredComplaints(filtered);
+  };
 
   return (
     <Container>
+      <ComplaintSearchFilterBar onSearch={handleSearch} />
       <Grid container spacing={1}>
-        {complaints.map(({ _id, title, submissionDate }) => (
+        {filteredComplaints.map(({ _id, title, submissionDate }) => (
           <Grid item xs={12} key={_id}>
             <Card sx={{ paddingRight: 2, maxWidth: '100%', boxShadow: 1 }}>
               <CardHeader
