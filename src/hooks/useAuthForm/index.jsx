@@ -21,7 +21,6 @@ export const useAuthForm = ({ initialValues, validationSchema, onSubmitAction })
   const handleSuccess = useCallback(() => {
     if (status === 'success' && user) {
       formik.resetForm();
-      toast.success('Logged in successfully!');
       switch (user.role) {
         case 'user':
           navigate('/');
