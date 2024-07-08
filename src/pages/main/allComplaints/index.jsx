@@ -1,5 +1,4 @@
 import ComplaintList from '../../../components/main/complaintList';
-import MainLayout from '../../../layouts/mainLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllComplaints } from '../../../store/complaintSlice';
@@ -12,11 +11,7 @@ const AllComplaints = () => {
     dispatch(getAllComplaints());
   }, [dispatch]);
 
-  return (
-    <MainLayout title="All Complaints">
-      {complaints && <ComplaintList complaints={complaints} />}
-    </MainLayout>
-  );
+  return <>{complaints && <ComplaintList complaints={complaints} />}</>;
 };
 
 export default AllComplaints;

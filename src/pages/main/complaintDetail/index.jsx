@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import MainLayout from '../../../layouts/mainLayout';
 import ComplaintCard from '../../../components/main/complaintCard';
 import { Grid, Container } from '@mui/material';
 import { useEffect } from 'react';
@@ -16,15 +15,13 @@ const ComplaintDetail = () => {
   }, [dispatch, id]);
 
   return (
-    <MainLayout title="Complaint Detail">
-      <Container>
-        <Grid container spacing={2}>
-          <Grid item xs={12} key={id}>
-            {complaint && <ComplaintCard {...complaint} />}
-          </Grid>
+    <Container>
+      <Grid container spacing={2}>
+        <Grid item xs={12} key={id}>
+          {complaint && <ComplaintCard {...complaint} />}
         </Grid>
-      </Container>
-    </MainLayout>
+      </Grid>
+    </Container>
   );
 };
 

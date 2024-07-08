@@ -1,12 +1,7 @@
 import SendComplaintForm from '../../../components/main/sendComplaintForm';
-import MainLayout from '../../../layouts/mainLayout';
 
 const SendComplaint = () => {
-  return (
-    <MainLayout title="Send New Complaint">
-      <SendComplaintForm />
-    </MainLayout>
-  );
+  return <SendComplaintForm />;
 };
 
 export default SendComplaint;

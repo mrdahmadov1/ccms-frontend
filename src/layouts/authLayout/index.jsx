@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Outlet } from 'react-router-dom';
 
-function AuthLayout({ children }) {
+function AuthLayout() {
   return (
     <>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -38,16 +38,12 @@ function AuthLayout({ children }) {
               <LockOutlinedIcon />
             </Avatar>
 
-            {children}
+            <Outlet />
           </Box>
         </Grid>
       </Grid>
     </>
   );
 }
-
-AuthLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default AuthLayout;

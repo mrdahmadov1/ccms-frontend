@@ -1,5 +1,4 @@
 import SignInForm from '../../../components/auth/signinForm';
-import AuthLayout from '../../../layouts/authLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -14,15 +13,13 @@ function SignIn() {
     dispatch(checkLogin());
     if (user && isLoggedIn) {
       if (user.role === 'admin') navigate('/admin');
-      else if (user.role === 'user') navigate('/');
+      else if (user.role === 'user') navigate('/dashboard');
     }
   }, [isLoggedIn, user, navigate, dispatch]);
 
   return (
     <>
-      <AuthLayout>
-        <SignInForm />
-      </AuthLayout>
+      <SignInForm />
     </>
   );
 }
