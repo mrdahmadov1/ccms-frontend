@@ -1,6 +1,14 @@
 import { Container, Typography, Box, List, ListItem, ListItemText } from '@mui/material';
+import { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 const Admin = () => {
+  const { setTitle } = useOutletContext();
+
+  useEffect(() => {
+    setTitle('Admin Dashboard');
+  }, [setTitle]);
+
   return (
     <Container>
       <Box mb={4}>

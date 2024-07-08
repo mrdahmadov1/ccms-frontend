@@ -5,6 +5,7 @@ import Sidebar from '../../components/shared/sidebar';
 import Header from '../../components/shared/header';
 
 function MainLayout() {
+  const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -18,10 +19,10 @@ function MainLayout() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Header open={open} handleDrawerOpen={handleDrawerOpen} title="Dynamic Page Title" />
+      <Header open={open} handleDrawerOpen={handleDrawerOpen} title={title} />
       <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
       <Box component="main" mt={8} sx={{ flexGrow: 1, p: 3 }}>
-        <Outlet />
+        <Outlet context={{ title, setTitle }} />
       </Box>
     </Box>
   );

@@ -3,12 +3,17 @@ import ComplaintCard from '../../../components/main/complaintCard';
 import { Grid, Container } from '@mui/material';
 import { useEffect } from 'react';
 import { getComplaint } from '../../../store/complaintSlice';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 
 const ComplaintDetail = () => {
   const dispatch = useDispatch();
   const { complaint } = useSelector((state) => state.complaint);
   const { id } = useParams();
+  const { setTitle } = useOutletContext();
+
+  useEffect(() => {
+    setTitle('Complaint Details');
+  }, [setTitle]);
 
   useEffect(() => {
     dispatch(getComplaint(id));
