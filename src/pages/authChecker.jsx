@@ -15,7 +15,7 @@ const AuthChecker = ({ children }) => {
   }, [dispatch]);
 
   if (!isLoggedIn && !user) {
-    return <Navigate to="/signin" />;
+    return <Navigate to="/auth/signin" />;
   }
 
   if (

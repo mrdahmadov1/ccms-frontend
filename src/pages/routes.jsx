@@ -11,18 +11,18 @@ import {
 
 export const authRoutes = [
   {
-    path: '/signin',
+    path: '/auth/signin',
     element: <Signin />,
   },
   {
-    path: '/signup',
+    path: '/auth/signup',
     element: <Signup />,
   },
 ];
 
 export const mainRoutes = [
   {
-    path: '/dashboard',
+    path: '/',
     element: <Dashboard />,
     title: 'Dashboard',
   },

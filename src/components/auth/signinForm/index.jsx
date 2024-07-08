@@ -56,7 +56,7 @@ const SignInForm = () => {
         </Button>
         <Grid container justifyContent="center">
           <Grid item>
-            <Link href="/signup" variant="body2">
+            <Link href="/auth/signup" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>
           </Grid>

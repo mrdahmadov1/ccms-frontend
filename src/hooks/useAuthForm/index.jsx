@@ -23,7 +23,7 @@ export const useAuthForm = ({ initialValues, validationSchema, onSubmitAction })
       formik.resetForm();
       switch (user.role) {
         case 'user':
-          navigate('/dashboard');
+          navigate('/');
           break;
         case 'admin':
           navigate('/admin');

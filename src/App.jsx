@@ -24,7 +24,7 @@ const App = () => {
             }
           >
             <Routes>
-              <Route path="/" element={<AuthLayout />}>
+              <Route path="/auth" element={<AuthLayout />}>
                 {authRoutes.map((route) => (
                   <Route key={route.path} path={route.path} element={route.element} />
                 ))}

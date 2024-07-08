@@ -64,7 +64,7 @@ const SignUpForm = () => {
         </Button>
         <Grid container justifyContent="center">
           <Grid item>
-            <Link href="/signin" variant="body2">
+            <Link href="/auth/signin" variant="body2">
               {'Already have an account? Sign In'}
             </Link>
           </Grid>

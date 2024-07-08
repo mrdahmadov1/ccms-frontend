@@ -67,7 +67,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const userItems = [
-  { text: 'Dashboard', icon: <ChromeReaderModeIcon />, path: '/dashboard' },
+  { text: 'Dashboard', icon: <ChromeReaderModeIcon />, path: '/' },
   { text: 'Send Complaint', icon: <OutboxIcon />, path: '/send-complaint' },
   { text: 'My Complaints', icon: <FormatListBulletedIcon />, path: '/my-complaints' },
 ];

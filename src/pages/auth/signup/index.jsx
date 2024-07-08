@@ -13,7 +13,7 @@ function SignIn() {
     dispatch(checkLogin());
     if (user && isLoggedIn) {
       if (user.role === 'admin') navigate('/admin');
-      else if (user.role === 'user') navigate('/dashboard');
+      else if (user.role === 'user') navigate('/');
     }
   }, [isLoggedIn, user, navigate, dispatch]);
   return (
