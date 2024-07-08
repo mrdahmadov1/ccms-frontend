@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
-import { Grid, Container, Box, Pagination } from '@mui/material';
+import { Grid, Container, Typography, Box, Pagination } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ComplaintSearchFilterBar from '../complaintFilterBar';
 import { useEffect, useState } from 'react';
@@ -69,16 +69,22 @@ const ComplaintList = ({ complaints }) => {
           </Grid>
         ))}
       </Grid>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-        <Pagination
-          count={Math.ceil(filteredComplaints.length / itemsPerPage)}
-          page={currentPage}
-          color="primary"
-          boundaryCount={0}
-          onChange={handlePageChange}
-          sx={{ mt: 2, justifyContent: 'center' }}
-        />
-      </Box>
+      {filteredComplaints.length > 0 ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Pagination
+            count={Math.ceil(filteredComplaints.length / itemsPerPage)}
+            page={currentPage}
+            color="primary"
+            boundaryCount={0}
+            onChange={handlePageChange}
+            sx={{ mt: 2, justifyContent: 'center' }}
+          />
+        </Box>
+      ) : (
+        <Typography variant="body1" noWrap component="div">
+          No Complaints
+        </Typography>
+      )}
     </Container>
   );
 };
