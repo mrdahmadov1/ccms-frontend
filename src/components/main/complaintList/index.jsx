@@ -1,75 +1,83 @@
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
-import { Grid, Container, Typography, Box, Pagination } from '@mui/material';
+import { Grid, Container, Box, Pagination, LinearProgress, Typography } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ComplaintSearchFilterBar from '../complaintFilterBar';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const ComplaintList = ({ complaints }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [filteredComplaints, setFilteredComplaints] = useState([]);
+  const { status } = useSelector((state) => state.complaint);
+  const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  useEffect(() => {
-    setFilteredComplaints(complaints);
-  }, [complaints]);
 
-  const handleSearch = (searchText) => {
-    const filtered = complaints.filter((complaint) =>
+  const filteredComplaints = useMemo(() => {
+    return complaints.filter((complaint) =>
       Object.values(complaint).some((value) =>
         value.toString().toLowerCase().includes(searchText.toLowerCase())
       )
     );
-    setFilteredComplaints(filtered);
-  };
+  }, [complaints, searchText]);
 
-  // Calculate current items based on pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredComplaints.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = useMemo(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return filteredComplaints.slice(indexOfFirstItem, indexOfLastItem);
+  }, [filteredComplaints, currentPage, itemsPerPage]);
 
-  // Handle page change
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  const handleSearch = (text) => {
+    setSearchText(text);
+    setCurrentPage(1);
+  };
+
+  const ComplaintCard = ({ _id, title, submissionDate }) => (
+    <Grid item xs={12} key={_id}>
+      <Card sx={{ paddingRight: 2, maxWidth: '100%', boxShadow: 1 }}>
+        <CardHeader
+          action={
+            <IconButton
+              color="primary"
+              onClick={() => {
+                navigate(`${location.pathname}/${_id}`);
+              }}
+              sx={{ marginTop: 1, marginLeft: 'auto' }}
+            >
+              <ReadMoreIcon fontSize="large" />
+            </IconButton>
+          }
+          title={title}
+          titleTypographyProps={{ variant: 'h6' }}
+          subheader={new Date(submissionDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+          })}
+          subheaderTypographyProps={{ variant: 'subtitle2' }}
+        />
+      </Card>
+    </Grid>
+  );
 
   return (
     <Container>
       <ComplaintSearchFilterBar onSearch={handleSearch} />
       <Grid container spacing={1}>
-        {currentItems.map(({ _id, title, submissionDate }) => (
-          <Grid item xs={12} key={_id}>
-            <Card sx={{ paddingRight: 2, maxWidth: '100%', boxShadow: 1 }}>
-              <CardHeader
-                action={
-                  <IconButton
-                    color="primary"
-                    onClick={() => {
-                      navigate(`${location.pathname}/${_id}`);
-                    }}
-                    sx={{ marginTop: 1, marginLeft: 'auto' }}
-                  >
-                    <ReadMoreIcon fontSize="large" />
-                  </IconButton>
-                }
-                title={title}
-                titleTypographyProps={{ variant: 'h6' }}
-                subheader={new Date(submissionDate).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: '2-digit',
-                })}
-                subheaderTypographyProps={{ variant: 'subtitle2' }}
-              />
-            </Card>
-          </Grid>
+        {currentItems.map((complaint) => (
+          <ComplaintCard key={complaint._id} {...complaint} />
         ))}
       </Grid>
-      {filteredComplaints.length > 0 ? (
+      {status !== 'loading' && filteredComplaints.length > 0 && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           <Pagination
             count={Math.ceil(filteredComplaints.length / itemsPerPage)}
@@ -80,10 +88,16 @@ const ComplaintList = ({ complaints }) => {
             sx={{ mt: 2, justifyContent: 'center' }}
           />
         </Box>
-      ) : (
-        <Typography variant="body1" noWrap component="div">
-          No Complaints
+      )}
+      {status !== 'loading' && filteredComplaints.length === 0 && (
+        <Typography sx={{ mt: 2, textAlign: 'center' }} variant="h6">
+          No complaints
         </Typography>
+      )}
+      {status === 'loading' && (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
       )}
     </Container>
   );
