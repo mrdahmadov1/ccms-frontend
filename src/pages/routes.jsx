@@ -20,7 +20,7 @@ export const authRoutes = [
   },
 ];
 
-export const routes = [
+export const mainRoutes = [
   {
     path: '/dashboard',
     element: <Dashboard />,

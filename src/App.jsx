@@ -8,7 +8,7 @@ import NotFoundPage from '../404';
 import { Box, LinearProgress } from '@mui/material';
 import AuthChecker from './pages/authChecker';
 import MainLayout from './layouts/mainLayout';
-import { authRoutes, routes } from './pages/routes';
+import { authRoutes, mainRoutes } from './pages/routes';
 import AuthLayout from './layouts/authLayout';
 
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
                   </AuthChecker>
                 }
               >
-                {routes.map((route) => (
+                {mainRoutes.map((route) => (
                   <Route
                     key={route.path}
                     path={route.path}
