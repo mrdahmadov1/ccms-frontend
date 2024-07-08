@@ -3,51 +3,43 @@ import Cookies from 'js-cookie';
 
 const API_BASE_URL = 'https://ccms-e9c8c215d52e.herokuapp.com/api/v1/complaints';
 
-export const getAllComplaints = createAsyncThunk(
-  'complaint/getAllComplaints',
-  async (credentials) => {
-    const token = Cookies.get('jwt');
+export const getAllComplaints = createAsyncThunk('complaint/getAllComplaints', async () => {
+  const token = Cookies.get('jwt');
 
-    const response = await fetch(`${API_BASE_URL}/all`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(credentials),
-    });
+  const response = await fetch(`${API_BASE_URL}/all`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    if (!response.ok) {
-      const { error } = await response.json();
-      return error;
-    }
-
-    return await response.json();
+  if (!response.ok) {
+    const { error } = await response.json();
+    return error;
   }
-);
 
-export const getMyComplaints = createAsyncThunk(
-  'complaint/getMyComplaints',
-  async (credentials) => {
-    const token = Cookies.get('jwt');
+  return await response.json();
+});
 
-    const response = await fetch(`${API_BASE_URL}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(credentials),
-    });
+export const getMyComplaints = createAsyncThunk('complaint/getMyComplaints', async () => {
+  const token = Cookies.get('jwt');
 
-    if (!response.ok) {
-      const { error } = await response.json();
-      return error;
-    }
+  const response = await fetch(`${API_BASE_URL}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    return await response.json();
+  if (!response.ok) {
+    const { error } = await response.json();
+    return error;
   }
-);
+
+  return await response.json();
+});
 
 export const getComplaint = createAsyncThunk('complaint/getComplaint', async (complaintId) => {
   const token = Cookies.get('jwt');
