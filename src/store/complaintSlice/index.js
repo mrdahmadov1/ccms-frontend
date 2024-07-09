@@ -115,7 +115,14 @@ const complaintSlice = createSlice({
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    resetComplaintState: (state) => {
+      state.complaints = [];
+      state.complaint = null;
+      state.status = 'idle';
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createComplaint.pending, (state) => {
@@ -166,4 +173,5 @@ const complaintSlice = createSlice({
   },
 });
 
+export const { resetComplaintState } = complaintSlice.actions;
 export default complaintSlice.reducer;

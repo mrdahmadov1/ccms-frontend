@@ -94,7 +94,7 @@ const ComplaintList = ({ complaints }) => {
           No complaints
         </Typography>
       )}
-      {status === 'loading' && (
+      {status === 'loading' && filteredComplaints.length === 0 && (
         <Box sx={{ width: '100%' }}>
           <LinearProgress />
         </Box>

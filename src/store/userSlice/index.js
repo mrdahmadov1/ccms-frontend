@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import { resetComplaintState } from '../complaintSlice';
 
 const API_BASE_URL = 'https://ccms-e9c8c215d52e.herokuapp.com/api/v1/users';
 
@@ -59,7 +60,7 @@ export const checkLogin = createAsyncThunk('user/checkLogin', async () => {
   return await response.json();
 });
 
-export const logoutUser = createAsyncThunk('user/logout', async () => {
+export const logoutUser = createAsyncThunk('user/logout', async (_, { dispatch }) => {
   const response = await fetch(`${API_BASE_URL}/logout`, {
     method: 'GET',
     headers: {
@@ -72,6 +73,7 @@ export const logoutUser = createAsyncThunk('user/logout', async () => {
     return error;
   }
 
+  dispatch(resetComplaintState());
   return await response.json();
 });
 
