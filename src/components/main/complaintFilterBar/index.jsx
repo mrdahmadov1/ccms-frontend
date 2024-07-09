@@ -1,32 +1,50 @@
 /* eslint-disable react/prop-types */
+import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useState } from 'react';
-import { Grid, InputAdornment, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 
-const ComplaintSearchFilterBar = ({ onSearch }) => {
-  const [searchText, setSearchText] = useState('');
+const ComplaintSearchFilterBar = ({ onFilterChange }) => {
+  const [filters, setFilters] = useState({ searchText: '', status: '', priority: '' });
 
-  const handleSearchInputChange = (event) => {
-    setSearchText(event.target.value);
-    onSearch(event.target.value);
+  const handleFilterChange = (event) => {
+    const { name, value } = event.target;
+    const updatedFilters = { ...filters, [name]: value };
+    setFilters(updatedFilters);
+    onFilterChange(updatedFilters);
   };
 
   return (
-    <Grid item marginBottom={4} xs={12}>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
       <TextField
-        fullWidth
-        placeholder="Search by title, name, email, address, status, priority or phone"
-        value={searchText}
-        onChange={handleSearchInputChange}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
+        label="Search"
+        name="searchText"
+        value={filters.searchText}
+        onChange={handleFilterChange}
+        sx={{ flexGrow: 1, mr: 2 }}
       />
-    </Grid>
+      <FormControl sx={{ mr: 2, minWidth: 120 }}>
+        <InputLabel>Status</InputLabel>
+        <Select name="status" value={filters.status} onChange={handleFilterChange} label="Status">
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="Open">Open</MenuItem>
+          <MenuItem value="In Progress">In Progress</MenuItem>
+          <MenuItem value="Completed">Completed</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl sx={{ minWidth: 120 }}>
+        <InputLabel>Priority</InputLabel>
+        <Select
+          name="priority"
+          value={filters.priority}
+          onChange={handleFilterChange}
+          label="Priority"
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="Low">Low</MenuItem>
+          <MenuItem value="Medium">Medium</MenuItem>
+          <MenuItem value="High">High</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
   );
 };
 

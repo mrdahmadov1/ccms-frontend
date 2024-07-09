@@ -14,17 +14,20 @@ const ComplaintList = ({ complaints }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { status } = useSelector((state) => state.complaint);
-  const [searchText, setSearchText] = useState('');
+  const [filters, setFilters] = useState({ searchText: '', status: '', priority: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const filteredComplaints = useMemo(() => {
-    return complaints.filter((complaint) =>
-      Object.values(complaint).some((value) =>
-        value.toString().toLowerCase().includes(searchText.toLowerCase())
-      )
-    );
-  }, [complaints, searchText]);
+    return complaints.filter((complaint) => {
+      const matchesSearchText = Object.values(complaint).some((value) =>
+        value.toString().toLowerCase().includes(filters.searchText.toLowerCase())
+      );
+      const matchesStatus = filters.status ? complaint.status === filters.status : true;
+      const matchesPriority = filters.priority ? complaint.priority === filters.priority : true;
+      return matchesSearchText && matchesStatus && matchesPriority;
+    });
+  }, [complaints, filters]);
 
   const currentItems = useMemo(() => {
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -36,8 +39,8 @@ const ComplaintList = ({ complaints }) => {
     setCurrentPage(value);
   };
 
-  const handleSearch = (text) => {
-    setSearchText(text);
+  const handleFilterChange = (updatedFilters) => {
+    setFilters(updatedFilters);
     setCurrentPage(1);
   };
 
@@ -71,7 +74,7 @@ const ComplaintList = ({ complaints }) => {
 
   return (
     <Container>
-      <ComplaintSearchFilterBar onSearch={handleSearch} />
+      <ComplaintSearchFilterBar onFilterChange={handleFilterChange} />
       <Grid container spacing={1}>
         {currentItems.map((complaint) => (
           <ComplaintCard key={complaint._id} {...complaint} />
