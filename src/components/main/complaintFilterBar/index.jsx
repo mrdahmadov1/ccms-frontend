@@ -15,7 +15,7 @@ const ComplaintSearchFilterBar = ({ onFilterChange }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
       <TextField
-        label="Search"
+        label="Search by Title, Name, Email, Address or Phone"
         name="searchText"
         value={filters.searchText}
         onChange={handleFilterChange}
