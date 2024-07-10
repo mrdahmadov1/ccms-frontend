@@ -123,7 +123,7 @@ const ComplaintList = ({ complaints }) => {
       {currentItems.length
         ? renderComplaints()
         : status !== 'loading' && renderNoComplaintsMessage()}
-      {status !== 'loading' && filteredComplaints.length > 0 && renderPagination()}
+      {filteredComplaints.length > 0 && renderPagination()}
       {status === 'loading' && filteredComplaints.length === 0 && renderLoading()}
     </Container>
   );
