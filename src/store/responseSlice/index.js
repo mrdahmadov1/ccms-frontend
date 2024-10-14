@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import { getComplaint } from '../complaintSlice';
 
-const API_BASE_URL = 'https://ccms-e9c8c215d52e.herokuapp.com/api/v1/responses';
+const API_BASE_URL = 'https://ccms-backend-aa9c56a10b2f.herokuapp.com/api/v1/responses';
 
 export const createResponse = createAsyncThunk(
   'response/create',
