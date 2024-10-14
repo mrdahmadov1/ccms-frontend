@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
-const API_BASE_URL = 'https://ccms-e9c8c215d52e.herokuapp.com/api/v1/complaints';
+const API_BASE_URL = 'https://ccms-backend-aa9c56a10b2f.herokuapp.com/api/v1/complaints';
 
 export const getAllComplaints = createAsyncThunk('complaint/getAllComplaints', async () => {
   const token = Cookies.get('jwt');
