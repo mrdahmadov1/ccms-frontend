@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import { resetComplaintState } from '../complaintSlice';
 
-const API_BASE_URL = 'https://ccms-e9c8c215d52e.herokuapp.com/api/v1/users';
+const API_BASE_URL = 'https://ccms-backend-aa9c56a10b2f.herokuapp.com/api/v1/users';
 
 export const registerUser = createAsyncThunk('user/register', async (userData) => {
   const response = await fetch(`${API_BASE_URL}/signup`, {
